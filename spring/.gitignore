@@ -1,8 +1,6 @@
-target/
+HELP.md
+/target/
 !.mvn/wrapper/maven-wrapper.jar
-
-### public folder is from external SPA ###
-src/main/resources/public
 
 ### STS ###
 .apt_generated
@@ -11,6 +9,7 @@ src/main/resources/public
 .project
 .settings
 .springBeans
+.sts4-cache
 
 ### IntelliJ IDEA ###
 .idea
@@ -19,14 +18,12 @@ src/main/resources/public
 *.ipr
 
 ### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/
 
-### Eclipse ###
-.settings
-.classpath
-.project
+### VS Code ###
+.vscode/

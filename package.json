@@ -9,7 +9,7 @@
   },
   "main": "electron/index.js",
   "scripts": {
-    "start": "electron ./electron",
+    "start": "electron --inspect=5858 ./electron",
     "build-server": "node build/build-server.js",
     "build-installer": "node build/build-installer.js",
     "build": "npm-run-all clean build-server build-installer",
@@ -54,6 +54,7 @@
     "electron-is-dev": "^1.1.0",
     "electron-log": "^3.0.6",
     "find-free-port": "^2.0.0",
+    "node-jre": "^0.2.3",
     "tree-kill": "^1.2.1"
   }
 }

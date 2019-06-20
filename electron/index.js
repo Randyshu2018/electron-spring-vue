@@ -4,6 +4,7 @@ const url = require('url');
 var findPort = require("find-free-port");
 const isDev = require('electron-is-dev');
 const logger = require('./logger');
+const jre = require('node-jre');
 
 const { app, BrowserWindow, dialog } = electron;
 
@@ -12,20 +13,25 @@ const { app, BrowserWindow, dialog } = electron;
 let mainWindow;
 
 // The server process
-const JAR = 'spring-1.0.0.jar'; // how to avoid manual update of this?
+const JAR = 'spring-0.0.1-SNAPSHOT.jar'; // how to avoid manual update of this?
 const MAX_CHECK_COUNT = 10;
 let serverProcess;
 
 function startServer(port) {
   const platform = process.platform;
 
-  const server = `${path.join(app.getAppPath(), '..', '..', JAR)}`;
+    // const  server = "/opt/spring-0.0.1-SNAPSHOT.jar";
+    //
+    const server = `${path.join(app.getAppPath(), '..', '..', JAR)}`;
   logger.info(`Launching server with jar ${server} at port ${port}...`);
 
-  serverProcess = require('child_process')
-    .spawn('java', [ '-jar', server, `--server.port=${port}`]);
+  // serverProcess = require('child_process').spawn('java', [ '-jar', server, `--server.port=${port}`]);
+    console.log("jre path-------:"+jre.driver());
+  serverProcess = require('child_process').execFile(jre.driver(), [ '-jar', server, `--server.port=${port}`]);
+  // serverProcess = jre.spawn('java', [ '-jar', server, `--server.port=${port}`]);
 
   serverProcess.stdout.on('data', logger.server);
+  serverProcess.stderr.on('data', logger.server);
 
   if (serverProcess.pid) {
     logger.info("Server PID: " + serverProcess.pid);
@@ -38,7 +44,7 @@ function createWindow() {
   // Create the browser window
   mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false
@@ -53,7 +59,7 @@ function createWindow() {
   }));
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -103,15 +109,17 @@ app.on('ready', function () {
   // Create window first to show splash before starting server
   createWindow();
 
-  if (isDev) {
-    // Assume the webpack dev server is up at port 9000  
-    loadHomePage('http://localhost:9000');
-  } else {
+  // if (isDev) {
+  //   // Assume the webpack dev server is up at port 9000
+  //   loadHomePage('http://localhost:9000');
+  // } else {
+    {
     // Start server at an available port (prefer 8080)
     findPort(8080, function(err, port) {
       logger.info(`Starting server at port ${port}`)
       startServer(port);
       loadHomePage(`http://localhost:${port}`)
+      // loadHomePage(`http://localhost:8080`)
     });
   }
 });
