@@ -2,14 +2,14 @@
   "name": "electron-vue-spring",
   "version": "1.0.0",
   "description": "A minimal starter project for using Electron, Vue and Spring.",
-  "author": "Wu, Ruoyun",
+  "author": "Randy shu",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wuruoyun/electron-vue-spring.git"
+    "url": "https://github.com/Randyshu2018/electron-spring-vue"
   },
   "main": "electron/index.js",
   "scripts": {
-    "start": "electron --inspect=5858 ./electron",
+    "start": "electron ./electron",
     "build-server": "node build/build-server.js",
     "build-installer": "node build/build-installer.js",
     "build": "npm-run-all clean build-server build-installer",

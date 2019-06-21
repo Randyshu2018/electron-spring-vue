@@ -16,20 +16,26 @@ let mainWindow;
 const JAR = 'spring-0.0.1-SNAPSHOT.jar'; // how to avoid manual update of this?
 const MAX_CHECK_COUNT = 10;
 let serverProcess;
+const port = '8080';
+
 
 function startServer(port) {
   const platform = process.platform;
 
-    // const  server = "/opt/spring-0.0.1-SNAPSHOT.jar";
-    //
     const server = `${path.join(app.getAppPath(), '..', '..', JAR)}`;
-  logger.info(`Launching server with jar ${server} at port ${port}...`);
+  logger.info(`Launching server2 with jar ${server} at port ${port}...`);
+  findPort(port,function (err,p) {
+      if(port !== p){
+          dialog.showErrorBox('Server error', 'failed to start server. port '+port+' already in use');
+          app.quit()
+      }
+  });
 
   // serverProcess = require('child_process').spawn('java', [ '-jar', server, `--server.port=${port}`]);
     console.log("jre path-------:"+jre.driver());
-  serverProcess = require('child_process').execFile(jre.driver(), [ '-jar', server, `--server.port=${port}`]);
-  // serverProcess = jre.spawn('java', [ '-jar', server, `--server.port=${port}`]);
+    serverProcess = require('child_process').execFile(jre.driver(), ['-jar', server, `--server.port=${port}`]);
 
+  // serverProcess = jre.spawn('java', [ '-jar', server, `--server.port=${port}`]);
   serverProcess.stdout.on('data', logger.server);
   serverProcess.stderr.on('data', logger.server);
 
@@ -59,7 +65,7 @@ function createWindow() {
   }));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -115,12 +121,12 @@ app.on('ready', function () {
   // } else {
     {
     // Start server at an available port (prefer 8080)
-    findPort(8080, function(err, port) {
+    // findPort(8080, function(err, port) {
       logger.info(`Starting server at port ${port}`)
       startServer(port);
       loadHomePage(`http://localhost:${port}`)
-      // loadHomePage(`http://localhost:8080`)
-    });
+    //   // loadHomePage(`http://localhost:8080`)
+    // });
   }
 });
 
@@ -138,6 +144,7 @@ app.on('activate', function () {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow()
+    loadHomePage(`http://localhost:${port}`)
   }
 });
 

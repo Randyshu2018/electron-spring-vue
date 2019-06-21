@@ -23,6 +23,7 @@ Vue.$log = interop.log
 Vue.$log.info('==========> Vue app start')
 
 router.beforeEach(async(to, from, next) => {
+    iView.LoadingBar.start();
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
@@ -40,6 +41,10 @@ router.beforeEach(async(to, from, next) => {
         next() // 确保一定要调用 next()
     }
 });
+
+router.afterEach(route=>{
+    iView.LoadingBar.finish();
+})
 
 new Vue({
     router,

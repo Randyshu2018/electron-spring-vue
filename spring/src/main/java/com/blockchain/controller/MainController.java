@@ -15,7 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.ClassLoaderUtil;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 /**
@@ -108,7 +116,5 @@ public class MainController {
 			return com.blockchain.gateway.model.Result.getErrorInstance(com.blockchain.gateway.model.Result.FAIL);
 		}
 	}
-
-
 
 }

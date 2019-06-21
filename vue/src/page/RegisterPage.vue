@@ -85,7 +85,9 @@ export default {
                     }else{
                         alert(response.data.msg);
                     }
-                });
+                }).catch(err=>{
+                    alert(err.message);
+                })
         },
         toLoginPage(){
             this.$router.push("/login");

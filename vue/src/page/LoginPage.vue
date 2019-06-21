@@ -1,5 +1,5 @@
 <template>
-    <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="100">
+    <Form ref="formInline" :model="formInline" :rules="ruleInline" :label-width="100" >
       <FormItem label="OrgName" prop="orgName" >
         <Select v-model="formInline.orgName" placeholder="please choose organization">
           <Option value="Org1">Org1</Option>
@@ -68,7 +68,9 @@ export default {
                     }else{
                         alert(response.data.msg);
                     }
-                });
+                }).catch(err=>{
+                    alert(err.message);
+                })
         },
         toEnrollPage(){
             this.$router.push("/register");
