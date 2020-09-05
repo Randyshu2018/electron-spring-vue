@@ -55,6 +55,6 @@
     "electron-log": "^3.0.6",
     "find-free-port": "^2.0.0",
     "node-jre": "^0.2.3",
-    "tree-kill": "^1.2.1"
+    "tree-kill": "^1.2.2"
   }
 }
